@@ -11,7 +11,7 @@ public class UserMapper {
 
     /**
      * The method convert User's Entities to UserDto
-     * @param userEntity
+     * @param userEntity A given User entity
      * @return UserDTO class
      */
     public UserDTO convertAllUserEntityToDTO(User userEntity){
@@ -21,7 +21,7 @@ public class UserMapper {
 
     /**
      * The method convert UserDto to User's Entities
-     * @param userDTO
+     * @param userDTO A given User DTO
      * @return User class
      */
     public User convertAllUserDTOToEntity(UserDTO userDTO){
