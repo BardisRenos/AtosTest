@@ -4,6 +4,40 @@
 ### Documentation
 
 
+### Data Model
+
+```java
+@Entity
+@Table(name = "Users")
+@Data
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * Adding the entities of the database table Users. Those attributes are representing the database table "Users".
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true, nullable = false, updatable = false)
+    private int id;
+    @NotNull(message = "The name cannot be null")
+    @Size(min = 5, max = 15, message = "The name cannot be less than 5 and greater than 15 characters")
+    private String name;
+    @NotNull(message = "The last name cannot be null")
+    @Size(min = 5, max = 25, message = "The name cannot be less than 5 and greater than 25 characters")
+    private String lastName;
+    @NotNull(message = "The age cannot be null")
+    private int age;
+    private String address;
+    private String city;
+    @NotNull(message = "The country cannot be null")
+    @Size(min = 2, max = 45, message = "The country cannot be less than 2 and greater than 25 characters")
+    private String country;
+```
+
+
+
 
 ### Schema Design
 
