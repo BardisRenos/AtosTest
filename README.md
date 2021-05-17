@@ -50,8 +50,6 @@ public class User implements Serializable {
 ```
 
 
-
-
 ### Schema Design
 
 The below sql command that create the database table `Users` 
@@ -68,6 +66,7 @@ CREATE TABLE Users (
 ```
 
 The other sql command fill up the table 
+
 ```sql
  INSERT INTO Users (id, name, lastName, age, address, city, country)
  VALUES (122, 'Renos', 'Bardis', 20, '78 BD Wilson', 'Antibes', 'France'),
@@ -76,4 +75,58 @@ The other sql command fill up the table
         (422, 'Nikos', 'Pappas', 35, '101 BD Cannes', 'Cannes', 'France');
 ```
 
+### User Exception Handling 
 
+
+
+```java
+@ExceptionHandler({UserValidationException.class})
+public ResponseEntity<Object> handleBadRequest(Exception ex) {
+    return new ResponseEntity<Object>(ex.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+}
+```
+
+```java
+@ExceptionHandler({UserNotFoundException.class})
+public ResponseEntity<Object> handleNotFound(Exception ex) {
+    return new ResponseEntity<Object>(ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND);
+}
+
+```
+
+### User Not Found Exception
+
+```java
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class UserNotFoundException extends Exception {
+
+    private static final long serialVersionUID = 1L;
+
+    /**
+     * This method return an exception message when the user not found.
+     * @param message
+     */
+    public UserNotFoundException(String message){
+        super(message);
+    }
+}
+
+```
+
+
+### UserValidation Exception
+
+
+```java
+@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+public class UserValidationException extends Exception {
+
+    /**
+     * This method return an exception message when the condition is not satisfied.
+     * @param message
+     */
+    public UserValidationException(String message) {
+        super(message);
+    }
+}
+```
