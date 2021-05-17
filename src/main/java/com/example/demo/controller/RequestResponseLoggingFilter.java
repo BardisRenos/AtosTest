@@ -1,10 +1,8 @@
 package com.example.demo.controller;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.*;
 import org.springframework.stereotype.Component;
 import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.time.*;
 
@@ -18,7 +16,7 @@ public class RequestResponseLoggingFilter implements Filter {
     private final static Logger LOG = LoggerFactory.getLogger(RequestResponseLoggingFilter.class);
 
     @Override
-    public void init(final FilterConfig filterConfig) throws ServletException {
+    public void init(final FilterConfig filterConfig) {
         LOG.info("Initializing filter :{}", this);
     }
 

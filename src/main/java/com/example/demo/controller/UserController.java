@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 import com.example.demo.dal.UserRepository;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.exception.UserNotFoundException;
-import com.example.demo.exception.UserValidationException;
+import com.example.demo.exception.*;
+import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,21 +15,30 @@ import java.util.List;
 @RestController
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
+    private final UserRepository userRepository;
+
+    /**
+     * User Controller Constructor
+     * @param userService User Service
+     * @param userRepository User Repository
+     */
     @Autowired
-    private UserRepository userRepository;
+    public UserController(UserService userService, UserRepository userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+    }
 
     /**
      * Register new user to the database and the
-     * @param userDTO
+     * @param user The class object User
      * @return UserDTO class.
-     * @throws UserValidationException
+     * @throws UserValidationException User Validation Exception
      */
     @PostMapping("/user")
-    public UserDTO saveUser(@Valid @RequestBody UserDTO userDTO) throws UserValidationException {
-        return userService.registerUser(userDTO);
+    public UserDTO saveUser(@Valid @RequestBody User user) throws UserValidationException {
+        return userService.registerUser(user);
     }
 
     /**
@@ -46,7 +55,7 @@ public class UserController {
      * Retrieve a UserDTO by a given id attribute.
      * @param id unique for each user.
      * @return UserDTO class.
-     * @throws UserNotFoundException
+     * @throws UserNotFoundException User Not Found Exception
      */
     @GetMapping("/user/{id}")
     public UserDTO getUserId(@PathVariable("id") Integer id) throws UserNotFoundException {

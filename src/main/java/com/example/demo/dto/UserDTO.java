@@ -20,7 +20,6 @@ public class UserDTO implements Serializable {
     public UserDTO() {
     }
 
-
     /**
      * User DTO constructor
      * @param id The unique ID number of each User.

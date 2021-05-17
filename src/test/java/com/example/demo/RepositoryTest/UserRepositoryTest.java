@@ -1,5 +1,4 @@
 package com.example.demo.RepositoryTest;
-
 import com.example.demo.dal.UserRepository;
 import com.example.demo.model.User;
 import org.junit.jupiter.api.AfterEach;
@@ -66,13 +65,13 @@ public class UserRepositoryTest {
     @Test
     public void testFindById(){
         Optional<User> userRes = userRepository.findById(1);
-        User user = null;
+        User user;
         if(userRes.isPresent()) {
             user = userRes.get();
+            assertEquals("Renos", user.getName());
+            assertEquals("Bardis", user.getLastName());
         }
-        assertTrue(userRes.isPresent());
-        assertEquals("Renos", user.getName());
-        assertEquals("Bardis", user.getLastName());
+
     }
 
     /**

@@ -1,13 +1,7 @@
 package com.example.demo.model;
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.persistence.*;
+import javax.validation.constraints.*;
 import lombok.Data;
 
 /**
@@ -29,17 +23,17 @@ public class User implements Serializable {
     @Column(unique = true, nullable = false, updatable = false)
     private int id;
     @NotNull(message = "The name cannot be null")
-    @Size(min = 5, max = 15, message = "The name cannot be less than 5 and greater than 15 characters")
+    @Size(min = 5, max = 32, message = "The name cannot be less than 5 and greater than 32 characters")
     private String name;
     @NotNull(message = "The last name cannot be null")
-    @Size(min = 5, max = 25, message = "The name cannot be less than 5 and greater than 25 characters")
+    @Size(min = 5, max = 64, message = "The name cannot be less than 5 and greater than 64 characters")
     private String lastName;
     @NotNull(message = "The age cannot be null")
     private int age;
     private String address;
     private String city;
     @NotNull(message = "The country cannot be null")
-    @Size(min = 2, max = 45, message = "The country cannot be less than 2 and greater than 25 characters")
+    @Size(min = 2, max = 64, message = "The country cannot be less than 2 and greater than 25 characters")
     private String country;
 
     /**
