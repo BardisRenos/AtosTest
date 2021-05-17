@@ -6,6 +6,8 @@
 
 ### Data Model
 
+The Model part is the representation the data base table schema into java coding. Setting the 
+
 ```java
 @Entity
 @Table(name = "Users")
