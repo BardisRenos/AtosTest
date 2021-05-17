@@ -139,7 +139,7 @@ public class UserValidationException extends Exception {
 
 ### User Validator
 
-The validator class checks if a given User is greater than 18 and if he is from France. Otherwise, the method validate throws a UserValidationException type.
+The validator class checks if a given User is greater than 18 and if he is from France. Otherwise, the method validate throws a `UserValidationException` type.
 
 ```java
 @Component
