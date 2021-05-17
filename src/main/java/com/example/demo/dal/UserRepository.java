@@ -15,7 +15,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     /**
      * Retrieve a number of users by a country.
-     * @param Country
+     * @param Country parameter
      * @return List<User>
      */
     List<User> findByCountry(String Country);
