@@ -15,11 +15,22 @@ Requirements:
 - unit tests
 - only adults ( age > 18 years)  and that live in France can create an account!
 
-### Requirements 
+### Prerequisites 
 
-- Java 11
-- Spring Boot 2.4.5
+- Java v11
+- Spring Boot v2.4.5
 - Maven Project 
+- Maven Build Tool
+
+### Installation
+
+```git
+git clone https://github.com/BardisRenos/AtosTest.git
+```
+
+```
+mvn clean install
+```
 
 
 ### Data Model
