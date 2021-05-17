@@ -15,9 +15,16 @@ Requirements:
 - unit tests
 - only adults ( age > 18 years)  and that live in France can create an account!
 
+### Requirements 
+
+- Java 11
+- Spring Boot 2.4.5
+- Maven Project 
+
+
 ### Data Model
 
-The Model part is the representation the data base table schema into java coding. Setting the 
+The Model part is the representation the database table schema into java coding. Setting the attributes of the User object witch will correnspond with the Users database table schema.
 
 ```java
 @Entity
@@ -75,8 +82,8 @@ The other sql command fill up the table
         (422, 'Nikos', 'Pappas', 35, '101 BD Cannes', 'Cannes', 'France');
 ```
 
-### User Exception Handling 
 
+### User Exception Handling 
 
 
 ```java
@@ -113,7 +120,6 @@ public class UserNotFoundException extends Exception {
 
 ```
 
-
 ### UserValidation Exception
 
 
@@ -127,6 +133,28 @@ public class UserValidationException extends Exception {
      */
     public UserValidationException(String message) {
         super(message);
+    }
+}
+```
+
+### User Validator
+
+The validator class checks if a given User is greater than 18 and if he is from France. Otherwise, the method validate throws a UserValidationException type.
+
+```java
+@Component
+public class UserValidator {
+
+    /**
+     * The validate method checks if the user is greater than 18 years old and if is from France. Otherwise,
+     * rise a UserValidationException.
+     * @param user Class.
+     * @throws UserValidationException
+     */
+    public void validate(User user) throws UserValidationException {
+        if (user.getAge() <= 18 || !"France".equals(user.getCountry())) {
+            throw new UserValidationException("User must be older than 18 years old and live in France");
+        }
     }
 }
 ```
