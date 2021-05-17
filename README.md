@@ -59,7 +59,7 @@ The below sql command that create the database table `Users`
 ```sql
 CREATE TABLE Users (
     `id`  INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `name` VARCHAR(64),
+    `name` VARCHAR(32),
     `lastName` VARCHAR(64),
     `age` INT,
     `address` VARCHAR(64),
