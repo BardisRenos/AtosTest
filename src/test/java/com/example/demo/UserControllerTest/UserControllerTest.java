@@ -2,14 +2,11 @@ package com.example.demo.UserControllerTest;
 import com.example.demo.controller.UserController;
 import com.example.demo.dal.UserRepository;
 import com.example.demo.dto.UserDTO;
-import com.example.demo.exception.UserNotFoundException;
-import com.example.demo.exception.UserValidationException;
+import com.example.demo.dtoMapper.UserMapper;
+import com.example.demo.model.User;
 import com.example.demo.service.UserService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,21 +18,21 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import com.example.demo.model.*;
 
-
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-
+import java.util.ArrayList;
 import java.util.List;
-import static org.mockito.Mockito.when;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = UserController.class)
 @ActiveProfiles("test")
+//@Import(SpringSecurityConfig.class)
 public class UserControllerTest {
 
     @Autowired
@@ -53,78 +50,98 @@ public class UserControllerTest {
     @Autowired
     private WebApplicationContext context;
 
+    @MockBean
+    private UserMapper userMapper;
+
     ObjectMapper om = new ObjectMapper();
 
-    @MockBean
-    private List<UserDTO> userList;
 
     @BeforeEach
     void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
-
         MockitoAnnotations.initMocks(this);
         userController = new UserController(userService, userRepository);
-//        this.userList = new ArrayList<>();
-//        this.userList.add(new UserDTO(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"));
-//        this.userList.add(new UserDTO(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France"));
     }
 
 
     @Test
-    @Disabled
-    public void getUserByCountry() {
+    public void getUserByCountry() throws Exception {
+        List<UserDTO> userList = new ArrayList<>();
+        userList.add(new UserDTO(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"));
+        userList.add(new UserDTO(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France"));
 
-        this.userList.add(new UserDTO(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"));
-        this.userList.add(new UserDTO(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France"));
-
-//        UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
-
-        given(userService.getUserByCountry("France")).willReturn(userList);
-
-        String url = "/user?country=France";
-
-//        this.mockMvc.perform(get(url)).andExpect(status.isOk());
-//        when(userService.getUserByCountry("France")).thenReturn(userList);
-//
-//        String url = "/user?country=France";
-//
-//        MvcResult result = mockMvc.perform(get("/user").content(MediaType.APPLICATION_JSON_VALUE))
-//                .andExpect(status().isOk()).andReturn();
-//
-//        String resultContent = result.getResponse().getContentAsString();
-//        Response response = om.readValue(resultContent, Response.class);
-//        Assert.assertTrue(response == Boolean.TRUE);
-
-//        given(userService.getUserByCountry("France")).willReturn(userList);
-
-    }
-
-
-    @Test
-    @Disabled
-    public void getUserById() throws Exception {
         UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
 
-        final int id = 1;
-        given(userService.getUser(id)).willReturn(userDTO);
+        String url = "/user?country=France";
+        when(userService.getUserByCountry("France")).thenReturn(userList);
+        mockMvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(userDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[*]", hasSize(2)))
+                .andExpect(jsonPath("$[0].id", is(userList.get(0).getId())))
+                .andExpect(jsonPath("$[0].name", is(userList.get(0).getName())))
+                .andExpect(jsonPath("$[0].lastName", is(userList.get(0).getLastName())))
+                .andExpect(jsonPath("$[1].id", is(userList.get(1).getId())))
+                .andExpect(jsonPath("$[1].name", is(userList.get(1).getName())))
+                .andExpect(jsonPath("$[1].lastName", is(userList.get(1).getLastName())))
+                .andReturn();
+    }
 
-        mockMvc.perform(get("/user/{id}", id).content(MediaType.APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk()).andReturn();
+
+    @Test
+    public void getUserById() throws Exception {
+        final int id = 1;
+        UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+
+        when(userService.getUser(id)).thenReturn(userDTO);
+
+        //response is retrieved as MvcResult
+        MvcResult mvcResult = mockMvc.perform(get("/user/{id}", id)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(om.writeValueAsString(userDTO)))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(userDTO.getId())))
+                .andExpect(jsonPath("$.name", is(userDTO.getName())))
+                .andExpect(jsonPath("$.lastName", is(userDTO.getLastName())))
+                .andReturn();
+
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        UserDTO userCreated = new ObjectMapper().readValue(jsonResponse, UserDTO.class);
+
+        Assertions.assertNotNull(userCreated);
+        assertEquals(userCreated.getId(), userDTO.getId());
+        assertEquals(userCreated.getName(), userDTO.getName());
+        assertEquals(userCreated.getAge(), userDTO.getAge());
+
     }
 
     @Test
-    @Disabled
     public void insertUser() throws Exception {
-        given(userService.registerUser(any(User.class))).willAnswer((invocation) -> invocation.getArgument(0));
-
         User user = new User(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+        UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
 
-        this.mockMvc.perform(post("/user")
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
+        //mocking the bean for any object of AddUserRequest.class
+        when(userService.registerUser(any(User.class))).thenReturn(userDTO);
+
+        //response is retrieved as MvcResult
+        MvcResult mvcResult = mockMvc.perform(post("/user")
+                .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(user)))
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.Nikos", is(user.getName())))
-                .andExpect(jsonPath("$.Papas", is(user.getLastName())))
-                .andExpect(jsonPath("$.age", is(user.getAge())));
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(userDTO.getId())))
+                .andExpect(jsonPath("$.name", is(userDTO.getName())))
+                .andExpect(jsonPath("$.lastName", is(userDTO.getLastName())))
+                .andReturn();
+
+        String jsonResponse = mvcResult.getResponse().getContentAsString();
+        UserDTO userCreated = new ObjectMapper().readValue(jsonResponse, UserDTO.class);
+
+        Assertions.assertNotNull(userCreated);
+        assertEquals(userCreated.getId(), userDTO.getId());
+        assertEquals(userCreated.getName(), userDTO.getName());
+        assertEquals(userCreated.getAge(), userDTO.getAge());
     }
 }

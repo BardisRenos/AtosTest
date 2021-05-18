@@ -22,7 +22,7 @@ public class UserValidator {
      * @throws UserValidationException
      */
     public void validate(User user) throws UserValidationException {
-        if (user.getAge() <= 18 || !COUNTRY.equals(user.getCountry())) {
+        if (user.getAge() <= 18 || !COUNTRY.equalsIgnoreCase(user.getCountry())) {
             throw new UserValidationException(String.format("User must be older than 18 years old and live in %s", COUNTRY));
         }
     }
