@@ -1,7 +1,7 @@
-# AtosTest
+# Atos Assigment Test
 
 
-### Documentation
+### Info
 
 Create 2 REST services: one that allows to register a user and the other one that displays the details of a registered user.
 
@@ -13,7 +13,13 @@ Requirements:
 - have a path variable
 - clear code and javadoc
 - unit tests
-- only adults ( age > 18 years)  and that live in France can create an account!
+- only adults ( age > 18 years) and who live in France can create an account!
+
+Bonuses:
+- user a non-relational DB in order to save the users!
+- use AOP
+- documentation/UML/schemas to explain the architecture
+
 
 ### Prerequisites 
 
@@ -28,19 +34,21 @@ Requirements:
 git clone https://github.com/BardisRenos/AtosTest.git
 ```
 
+In order to clean and install the Maven repository dependencies. 
+
 ```
 mvn clean install
 ```
 
 ### Application Properties
 
-Changing the server port 
+Changing the server port from 8080 (Default) to 8081.
 
 ```
 server.port=8081
 ```
 
-Setting the H2 in memory database. 
+Setting the H2 in memory database. I do not user a SQL database but a vitual memory which is creted when the application runs.  
 
 ```
 spring.datasource.url=jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;IGNORECASE=TRUE;
@@ -54,39 +62,40 @@ spring.jpa.generate-ddl=true
 spring.jpa.hibernate.ddl-auto=create
 ```
 
-
 ### Data Model
 
-The Model part is the representation the database table schema into java coding. Setting the attributes of the User object witch will correnspond with the Users database table schema.
+The Model part is the representation the database table schema into Java coding. Setting the attributes of the User object witch corrensponds with the Users database table schema attributes.
+
+
+The `Entity` annotation indicates the variables entitity of the database table. Also, the `@Table` corrensopnd to database table name. Finally the `@Data`  
 
 ```java
 @Entity
 @Table(name = "Users")
 @Data
-public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+```
 
-    /**
-     * Adding the entities of the database table Users. Those attributes are representing the database table "Users".
-     */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = false, updatable = false)
-    private int id;
-    @NotNull(message = "The name cannot be null")
-    @Size(min = 5, max = 32, message = "The name cannot be less than 5 and greater than 32 characters")
-    private String name;
-    @NotNull(message = "The last name cannot be null")
-    @Size(min = 5, max = 64, message = "The name cannot be less than 5 and greater than 64 characters")
-    private String lastName;
-    @NotNull(message = "The age cannot be null")
-    private int age;
-    private String address;
-    private String city;
-    @NotNull(message = "The country cannot be null")
-    @Size(min = 2, max = 64, message = "The country cannot be less than 2 and greater than 25 characters")
-    private String country;
+By using the annotation `@Id` sets the `primary key` (Id attribute) which will be unique and nullable and not updatable. 
+
+```java
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(unique = true, nullable = false, updatable = false)
+private int id;
+````
+
+By using the annotation `@NotNUll` and `@Size` you specify 
+
+```java
+@NotNull(message = "The name cannot be null")
+@Size(min = 5, max = 32, message = "The name cannot be less than 5 and greater than 32 characters")
+private String name;
+```
+
+In this case when the city has 
+```java
+private String city;
 ```
 
 
