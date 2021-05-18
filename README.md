@@ -86,7 +86,7 @@ By using the annotation `@Id` sets the `primary key` (Id attribute) which will b
 private int id;
 ````
 
-By using the annotation `@NotNUll` and `@Size` you specify 
+By using the annotation `@NotNUll` and `@Size` you specify that entity should not be null and also the size should be inside of a specific size. 
 
 ```java
 @NotNull(message = "The name cannot be null")
@@ -94,9 +94,25 @@ By using the annotation `@NotNUll` and `@Size` you specify
 private String name;
 ```
 
-In this case when the city has 
+In this case when the city could be null
 ```java
 private String city;
+```
+
+### DTO's (Data Transfer Object) and DTO Mappers
+
+
+<p align="center"> 
+<img src="" width="450" height="250" style=centerme>
+</p>
+
+### Validation 
+
+In order to validate that the attributes of a User object, should use `@Valid` as a parameter.
+
+```java
+@PostMapping("/user")
+public UserDTO saveUser(@Valid @RequestBody User user) throws UserValidationException 
 ```
 
 ### Schema Design
@@ -127,7 +143,6 @@ The sql command `INSERT` fill up the table
 
 ### User Exception Handling 
 
-
 ```java
 @ExceptionHandler({UserValidationException.class})
 public ResponseEntity<Object> handleBadRequest(Exception ex) {
@@ -140,7 +155,6 @@ public ResponseEntity<Object> handleBadRequest(Exception ex) {
 public ResponseEntity<Object> handleNotFound(Exception ex) {
     return new ResponseEntity<Object>(ex.getMessage(), new HttpHeaders(), HttpStatus.NOT_FOUND);
 }
-
 ```
 
 ### User Not Found Exception
