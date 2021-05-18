@@ -1,9 +1,11 @@
 package com.example.demo.dto;
+import lombok.Data;
 import java.io.Serializable;
 
 /**
  * User Data Transform Object class.
  */
+@Data
 public class UserDTO implements Serializable {
 
     private int id;
@@ -37,62 +39,6 @@ public class UserDTO implements Serializable {
         this.age = age;
         this.address = address;
         this.city = city;
-        this.country = country;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
         this.country = country;
     }
 }
