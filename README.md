@@ -76,7 +76,7 @@ The `Entity` annotation indicates the variables entitity of the database table. 
 
 ```
 
-By using the annotation `@Id` sets the `primary key` (Id attribute) which will be unique and nullable and not updatable. 
+By using the annotation `@Id` sets the `primary key` (Id attribute) which will be unique, nullable and not updatable. 
 
 ```java
 @Id
@@ -98,7 +98,6 @@ In this case when the city has
 private String city;
 ```
 
-
 ### Schema Design
 
 The below sql command that create the database table `Users` 
@@ -114,13 +113,13 @@ CREATE TABLE Users (
     `country` VARCHAR(64) NOT NULL);
 ```
 
-The other sql command fill up the table 
+The sql command `INSERT` fill up the table 
 
 ```sql
  INSERT INTO Users (id, name, lastName, age, address, city, country)
  VALUES (122, 'Renos', 'Bardis', 20, '78 BD Wilson', 'Antibes', 'France'),
-        (222, 'Omar', 'Mater', 21, '6 BD Dugommier', 'Juan Leas Pins', 'France'),
-        (322, 'Jacques', 'Seilier', 25, '89 BD Albert', 'Nice', 'France'),
+        (222, 'Peter', 'Materdeeer', 21, '6 BD Dugommier', 'Juan Leas Pins', 'France'),
+        (322, 'William', 'Seillsss', 25, '89 BD Albert', 'Nice', 'France'),
         (422, 'Nikos', 'Pappas', 35, '101 BD Cannes', 'Cannes', 'France');
 ```
 
@@ -178,5 +177,7 @@ public class UserValidator {
     }
 }
 ```
+
+
 
 
