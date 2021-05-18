@@ -342,6 +342,9 @@ the `HttpStatus` is ok, namely `200`. Also, checks the id, name and the last nam
 ### UML Diagram 
 
 
+<p align="center"> 
+<img src="https://github.com/BardisRenos/AtosTest/blob/master/uml.png" width="450" height="450" style=centerme>
+</p>
 
 
 
