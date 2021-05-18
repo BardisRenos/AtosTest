@@ -394,7 +394,7 @@ From this screen shot it is obvious that all the test are passed.
 
 
 <p align="center"> 
-<img src="https://github.com/BardisRenos/AtosTest/blob/master/uml.png" width="450" height="450" style=centerme>
+<img src="https://github.com/BardisRenos/AtosTest/blob/master/uml.png" width="450" height="550" style=centerme>
 </p>
 
 
