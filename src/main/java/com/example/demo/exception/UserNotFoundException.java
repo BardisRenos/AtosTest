@@ -12,7 +12,7 @@ public class UserNotFoundException extends Exception {
 
     /**
      * This method return an exception message when the user not found.
-     * @param message
+     * @param message The given message what the exception will print.
      */
     public UserNotFoundException(String message){
         super(message);

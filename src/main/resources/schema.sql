@@ -1,9 +1,10 @@
+DROP TABLE IF EXISTS Users;
 
 CREATE TABLE Users (
     `id`  INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `name` VARCHAR(32),
-    `lastName` VARCHAR(64),
-    `age` INT,
+    `name` VARCHAR(32) NOT NULL,
+    `lastName` VARCHAR(64) NOT NULL,
+    `age` INT NOT NULL,
     `address` VARCHAR(64),
     `city` VARCHAR(64),
-    `country` VARCHAR(64));
+    `country` VARCHAR(64) NOT NULL);

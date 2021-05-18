@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class UserMapper {
 
     /**
-     * The method convert User's Entities to UserDto
+     * The method convert User's  object Entities to UserDto
      * @param userEntity A given User entity
      * @return UserDTO class
      */
@@ -20,7 +20,7 @@ public class UserMapper {
     }
 
     /**
-     * The method convert UserDto to User's Entities
+     * The method convert UserDto object to User's Entities
      * @param userDTO A given User DTO
      * @return User class
      */
