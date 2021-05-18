@@ -15,22 +15,8 @@ public class UserMapper {
      * @param userEntity A given User entity
      * @return UserDTO class
      */
-//    public UserDTO convertAllUserEntityToDTO(User userEntity){
-//        return new UserDTO(userEntity.getId(), userEntity.getName(), userEntity.getLastName(), userEntity.getAge(),
-//                userEntity.getAddress(), userEntity.getCity(), userEntity.getCountry());
-//    }
     public UserDTO convertAllUserEntityToDTO(User userEntity){
         ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(userEntity, UserDTO.class);
     }
-
-//    /**
-//     * The method convert UserDto object to User's Entities
-//     * @param userDTO A given User DTO
-//     * @return User class
-//     */
-//    public User convertAllUserDTOToEntity(UserDTO userDTO){
-//        return new User(userDTO.getId(), userDTO.getName(), userDTO.getLastName(), userDTO.getAge(),
-//                userDTO.getAddress(), userDTO.getCity(), userDTO.getCountry());
-//    }
 }
