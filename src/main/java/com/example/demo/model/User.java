@@ -37,7 +37,7 @@ public class User implements Serializable {
     private String country;
 
     /**
-     *  Default constructor
+     *  Default User constructor
      */
     public User() {
     }

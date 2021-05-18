@@ -30,9 +30,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * JUnit testing for the Controller layer
+ */
 @WebMvcTest(controllers = UserController.class)
 @ActiveProfiles("test")
-//@Import(SpringSecurityConfig.class)
 public class UserControllerTest {
 
     @Autowired
@@ -64,6 +66,11 @@ public class UserControllerTest {
     }
 
 
+    /**
+     * Insert two records and then check if the two items are retrieved. Checking the size of the list and the
+     * attributes of the two user records.
+     * @throws Exception Throws an Exception
+     */
     @Test
     public void getUserByCountry() throws Exception {
         List<UserDTO> userList = new ArrayList<>();
@@ -88,7 +95,10 @@ public class UserControllerTest {
                 .andReturn();
     }
 
-
+    /**
+     * This test checks if a user is retrieved correctly. By checking the id, name and the last name.
+     * @throws Exception Throws an Exception.
+     */
     @Test
     public void getUserById() throws Exception {
         final int id = 1;
@@ -96,7 +106,6 @@ public class UserControllerTest {
 
         when(userService.getUser(id)).thenReturn(userDTO);
 
-        //response is retrieved as MvcResult
         MvcResult mvcResult = mockMvc.perform(get("/user/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(userDTO)))
@@ -117,15 +126,17 @@ public class UserControllerTest {
 
     }
 
+    /**
+     * This test checks that a record is inserted and retrieved properly.
+     * @throws Exception Throws an Exception.
+     */
     @Test
     public void insertUser() throws Exception {
         User user = new User(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
         UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
 
-        //mocking the bean for any object of AddUserRequest.class
         when(userService.registerUser(any(User.class))).thenReturn(userDTO);
 
-        //response is retrieved as MvcResult
         MvcResult mvcResult = mockMvc.perform(post("/user")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(user)))

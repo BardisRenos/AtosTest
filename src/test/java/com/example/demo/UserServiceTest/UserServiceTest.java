@@ -20,6 +20,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
+/**
+ * JUnit testing for the Service layer
+ */
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
 class UserServiceTest {
@@ -42,7 +45,7 @@ class UserServiceTest {
 
     /**
      * Testing if the user is registered and check if the method retrieve the same user object.
-     * @throws UserValidationException Otherwise, a User Validation Exception.
+     * @throws UserValidationException A User Validation Exception.
      */
     @Test
     void registerUser() throws UserValidationException {
@@ -61,7 +64,7 @@ class UserServiceTest {
 
     /**
      * Testing if the correct user is retrieved. By checking the name and the last name.
-     * @throws UserNotFoundException Otherwise, a User Not Found Exception will be rise.
+     * @throws UserNotFoundException A User Not Found Exception will be rise.
      */
     @Test
     void getUser() throws UserNotFoundException {

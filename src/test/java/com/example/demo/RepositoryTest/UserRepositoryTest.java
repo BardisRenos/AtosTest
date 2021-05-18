@@ -65,9 +65,8 @@ public class UserRepositoryTest {
     @Test
     public void testFindById(){
         Optional<User> userRes = userRepository.findById(1);
-        User user;
         if(userRes.isPresent()) {
-            user = userRes.get();
+            User user = userRes.get();
             assertEquals("Renos", user.getName());
             assertEquals("Bardis", user.getLastName());
         }
