@@ -123,6 +123,47 @@ OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
 <img src="https://github.com/BardisRenos/AtosTest/blob/master/layers.png" width="350" height="450" style=centerme>
 </p>
 
+### The different structure 
+
+How should is the architecture, with DTO and without. 
+
+3 Layers
+
+With only Entity:
+
+    Presentation => REST CONTROLLER
+            ENTITY
+            |
+    BUSINESS => SERVICES
+            |
+            ENTITY
+    DAL (Data Access Layer) => Repositories
+
+    Issues:
+        - infinite recursion loop in JSON deserialisation
+        - Business Logic is tied to the definition of the model
+            (EVERYTHING HAS TO BE IN DATABASE, which is not always the case)
+
+
+With DTO:
+
+    Presentation => REST CONTROLLER------------------
+        DTO                                 /\
+        |                                   |
+        v                                    DTO
+    BUSINESS => SERVICES---------------------------
+        DTO transform to ENTITY             ENTITY trasnform to DTO
+        |                                   /\
+        v                                   |
+        Save ENTITY                        GET ENTITY
+    DAL (Data Access Layer) => Repositories--------
+
+    Non Issue:
+        A bit more code to do (sometimes it can be just a copy of an entity)
+    ++:
+        More flexible in the Businness Lyaer to add data
+        Separate
+        
 ### Validation 
 
 In order to validate that the attributes of a User object, should use `@Valid` as a parameter.
