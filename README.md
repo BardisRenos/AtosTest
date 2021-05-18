@@ -339,6 +339,16 @@ the `HttpStatus` is ok, namely `200`. Also, checks the id, name and the last nam
   }
 ```
 
+### Testing screenshot
+
+From this screen shot it is obvious that all the test are passed. 
+
+
+<p align="center"> 
+<img src="https://github.com/BardisRenos/AtosTest/blob/master/test-screenshot.png" width="550" height="550" style=centerme>
+</p>
+
+
 ### UML Diagram 
 
 
