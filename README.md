@@ -101,6 +101,23 @@ private String city;
 
 ### DTO's (Data Transfer Object) and DTO Mappers
 
+The conversation of the data base entities into Data tranform objects. We try not to expose the entities from the database. 
+
+
+Since we are using Maven, just add the `modelmapper` library as a dependency.
+
+```
+<dependency>
+  <groupId>org.modelmapper</groupId>
+  <artifactId>modelmapper</artifactId>
+  <version>2.4.2</version>
+</dependency>
+```
+Coding in Java, how to convert an entity to DTO.  
+```java
+ModelMapper modelMapper = new ModelMapper();
+OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
+```
 
 <p align="center"> 
 <img src="https://github.com/BardisRenos/AtosTest/blob/master/layers.png" width="350" height="450" style=centerme>
