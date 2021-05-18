@@ -210,6 +210,35 @@ public class UserValidator {
 }
 ```
 
+### JUnit Testing
+
+It is best to test all the layers of this application. 
+
+- Repository layer
+- Service layer
+- Controll layer
+
+For the `repository` layer :
+
+```java
+  @BeforeEach
+  public void init(){
+      User user = new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France");
+      User user1 = new User(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+      userRepository.save(user);
+      userRepository.save(user1);
+    }
+```
+With the annotation `@BeforeEach` before each `@Test` part, the method insert two user object.  
+
+```java
+  @AfterEach
+  public void delete(){
+      userRepository.deleteAll();
+    }
+```
+
+With the annotation `@AfterEach` after each `@Test` part, the method delete all the records.
 
 
 
