@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserValidator {
 
+    final String COUNTRY = "France";
+
     /**
      * The validate method checks if the user is greater than 18 years old and if is from France. Otherwise,
      * rise a UserValidationException.
@@ -17,8 +19,8 @@ public class UserValidator {
      * @throws UserValidationException
      */
     public void validate(User user) throws UserValidationException {
-        if (user.getAge() <= 18 || !"France".equals(user.getCountry())) {
-            throw new UserValidationException("User must be older than 18 years old and live in France");
+        if (user.getAge() <= 18 || !COUNTRY.equals(user.getCountry())) {
+            throw new UserValidationException(String.format("User must be older than 18 years old and live in %s", COUNTRY));
         }
     }
 }

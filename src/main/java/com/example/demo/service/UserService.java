@@ -42,7 +42,6 @@ public class UserService {
      * @throws UserValidationException User Validation Exception
      */
     public UserDTO registerUser(User user) throws UserValidationException {
-//        User user = userMapper.convertAllUserDTOToEntity(userDTO);
         userValidator.validate(user);
         user = userRepository.save(user);
         return userMapper.convertAllUserEntityToDTO(user);
