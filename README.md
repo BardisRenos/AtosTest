@@ -106,12 +106,12 @@ The below sql command that create the database table `Users`
 ```sql
 CREATE TABLE Users (
     `id`  INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `name` VARCHAR(32),
-    `lastName` VARCHAR(64),
-    `age` INT,
+    `name` VARCHAR(32) NOT NULL,
+    `lastName` VARCHAR(64) NOT NULL,
+    `age` INT NOT NULL,
     `address` VARCHAR(64),
     `city` VARCHAR(64),
-    `country` VARCHAR(64));
+    `country` VARCHAR(64) NOT NULL);
 ```
 
 The other sql command fill up the table 
@@ -145,38 +145,20 @@ public ResponseEntity<Object> handleNotFound(Exception ex) {
 
 ### User Not Found Exception
 
+The 404 which is the NOT_FOUND status
 ```java
 @ResponseStatus(value = HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends Exception {
-
-    private static final long serialVersionUID = 1L;
-
-    /**
-     * This method return an exception message when the user not found.
-     * @param message
-     */
-    public UserNotFoundException(String message){
-        super(message);
-    }
-}
+public class UserNotFoundException extends Exception
 
 ```
 
 ### UserValidation Exception
 
+The 400 which is BAD_REQUEST status
 
 ```java
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-public class UserValidationException extends Exception {
-
-    /**
-     * This method return an exception message when the condition is not satisfied.
-     * @param message
-     */
-    public UserValidationException(String message) {
-        super(message);
-    }
-}
+public class UserValidationException extends Exception 
 ```
 
 ### User Validator
@@ -187,16 +169,14 @@ The validator class checks if a given User is greater than 18 and if he is from 
 @Component
 public class UserValidator {
 
-    /**
-     * The validate method checks if the user is greater than 18 years old and if is from France. Otherwise,
-     * rise a UserValidationException.
-     * @param user Class.
-     * @throws UserValidationException
-     */
+    final String COUNTRY = "France";
+
     public void validate(User user) throws UserValidationException {
-        if (user.getAge() <= 18 || !"France".equals(user.getCountry())) {
-            throw new UserValidationException("User must be older than 18 years old and live in France");
+        if (user.getAge() <= 18 || !COUNTRY.equals(user.getCountry())) {
+            throw new UserValidationException(String.format("User must be older than 18 years old and live in %s", COUNTRY));
         }
     }
 }
 ```
+
+
