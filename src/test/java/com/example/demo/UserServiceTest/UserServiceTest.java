@@ -7,31 +7,29 @@ import com.example.demo.exception.UserValidationException;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 import com.example.demo.service.UserValidator;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import static org.assertj.core.api.Assertions.assertThat;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.stubbing.Answer;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import java.util.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 class UserServiceTest {
 
-    @Autowired
+    @MockBean
     private UserRepository userRepository;
 
     private final UserMapper userMapper = new UserMapper();
 
-    @Autowired
+    @InjectMocks
     private UserService userService;
 
     private final UserValidator userValidator = new UserValidator();
@@ -40,62 +38,49 @@ class UserServiceTest {
     void setUp(){
         MockitoAnnotations.initMocks(this);
         userService = new UserService(userRepository, userMapper, userValidator);
-
-//        User user = new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France");
-//        User user1 = new User(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
-//        userRepository.save(user);
-//        userRepository.save(user1);
-
     }
 
+    /**
+     * Testing if the user is registered and check if the method retrieve the same user object.
+     * @throws UserValidationException Otherwise, a User Validation Exception.
+     */
     @Test
-    @Disabled
     void registerUser() throws UserValidationException {
-        // given
         User user = new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France");
-//        User user1 = new User(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
-
-//        when(userService.registerUser(user)).thenReturn(new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"));
-
-        // when
-        userService.registerUser(user);
-
-        // then
-        ArgumentCaptor<User> userArgumentCaptor = ArgumentCaptor.forClass(User.class);
-
-        verify(userRepository).save(userArgumentCaptor.capture());
-
-        User capturedStudent = userArgumentCaptor.getValue();
-
-        assertThat(capturedStudent).isEqualTo(user);
+        when(userRepository.save(any(User.class))).thenAnswer((Answer<User>) invocation -> {
+            User user1 = (User) invocation.getArguments()[0];
+            user1.setId(1);
+            return user1;
+        });
+        assertEquals(1, user.getId());
+        UserDTO userDTO = userService.registerUser(user);
+        assertNotNull(userDTO);
+        assertEquals(20, user.getAge());
+        assertEquals("Bardis", user.getLastName());
     }
 
+    /**
+     * Testing if the correct user is retrieved. By checking the name and the last name.
+     * @throws UserNotFoundException Otherwise, a User Not Found Exception will be rise.
+     */
     @Test
-    @Disabled
     void getUser() throws UserNotFoundException {
-
-//        when(userRepository.findAll()).thenReturn(Arrays.asList(new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"),
-//                new User(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France")));
-
         when(userRepository.findById(1)).thenReturn(Optional.of(new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France")));
-
         UserDTO userRes = userService.getUser(1);
-
         assertEquals("Renos", userRes.getName());
+        assertEquals("Bardis", userRes.getLastName());
     }
 
+    /**
+     * Testing if the correct user is retrieved. By checking the name and the last name of both User class.
+     */
     @Test
-//    @Disabled
     void getUserByCountry() {
-
         when(userRepository.findByCountry("France")).thenReturn(Arrays.asList(new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"),
                 new User(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France")));
-
-//        when(userRepository.findAll()).thenReturn(res);
-
         List<UserDTO> res = userService.getUserByCountry("France");
-//
         assertEquals(2, res.size());
-
+        assertEquals("Renos", res.get(0).getName());
+        assertEquals("Nikos", res.get(1).getName());
     }
 }
