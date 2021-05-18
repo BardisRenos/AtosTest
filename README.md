@@ -27,6 +27,7 @@ Bonuses:
 - Spring Boot v2.4.5
 - Maven Project 
 - Maven Build Tool
+- Lombok (Additional Library)
 
 ### Installation
 
