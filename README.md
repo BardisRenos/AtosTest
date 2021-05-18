@@ -157,6 +157,28 @@ The sql command `INSERT` fill up the table
         (422, 'Nikos', 'Pappas', 35, '101 BD Cannes', 'Cannes', 'France');
 ```
 
+### Insert values into the database
+
+When the application starts, the database has already 4 records, in order to check if the application works.
+
+```java
+@SpringBootApplication
+public class DemoApplication {
+	public static void main(String[] args) {
+		ApplicationContext applicationContext = SpringApplication.run(DemoApplication.class, args);
+	}
+
+	@Bean
+	public CommandLineRunner initDB(UserRepository userRepository){
+		return (args) ->{
+			List<User> users = new ArrayList<>(Arrays.asList(new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"),
+					new User(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France"),
+					new User(3, "Aggelos", "MPalallis", 30, "90 BVD MM", "Paris", "France"),
+					new User(4, "Vaggelis", "Papagkikas", 50, "90 RUE LL", "Bordeaux", "France")));
+
+			userRepository.saveAll(users);
+		};
+```
 
 ### User Exception Handling 
 
@@ -218,7 +240,7 @@ It is best to test all the layers of this application.
 - Service layer
 - Controll layer
 
-For the `repository` layer :
+For the `repository` layer:
 
 ```java
   @BeforeEach
@@ -239,6 +261,86 @@ With the annotation `@BeforeEach` before each `@Test` part, the method insert tw
 ```
 
 With the annotation `@AfterEach` after each `@Test` part, the method delete all the records.
+
+
+In this case the method `testData()` retrieve all the records and checks if the total number
+of records are 2 and the first record the name of the user is `Renos`.
+
+```java
+@Test
+public void testData(){
+    List<User> userRes = (List<User>) userRepository.findAll();
+    assertEquals(2, userRes.size());
+    assertEquals("Renos", userRes.get(0).getName());
+  }
+```
+
+In the other case is the riverce side of the first unit test. Retrieve all the records and checks if the
+name is not we gave and the total size of the list not 1.
+
+```java
+@Test
+public void testDataNot(){
+    List<User> userRes = (List<User>) userRepository.findAll();
+    assertNotEquals("George", userRes.get(0).getName());
+    assertNotEquals(1, userRes.size());
+}
+```
+
+For the `service` layer:
+
+In this layer, `Mockito` testing will be used. In this case `mock` the `findById()` method which returns an Optional `User`. Followed by
+the `service` method  `getUser()`. Checks the `name` and the `last name`.
+
+```java
+@Test
+void getUser() throws UserNotFoundException {
+    when(userRepository.findById(1)).thenReturn(Optional.of(new User(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France")));
+    UserDTO userRes = userService.getUser(1);
+    assertEquals("Renos", userRes.getName());
+    assertEquals("Bardis", userRes.getLastName());
+}
+
+
+```
+
+
+For the `controller` layer :
+
+
+In this test case the method `getUser()` return a UserDTO type. Then `mockMvc` apply the path of the controller `/user/{id}` and chekcs if
+the `HttpStatus` is ok, namely `200`. Also, checks the id, name and the last name. 
+
+```java
+@Test
+  public void getUserById() throws Exception {
+      final int id = 1;
+      UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+
+      when(userService.getUser(id)).thenReturn(userDTO);
+
+      MvcResult mvcResult = mockMvc.perform(get("/user/{id}", id)
+              .contentType(MediaType.APPLICATION_JSON)
+              .content(om.writeValueAsString(userDTO)))
+              .andExpect(status().isOk())
+              .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+              .andExpect(jsonPath("$.id", is(userDTO.getId())))
+              .andExpect(jsonPath("$.name", is(userDTO.getName())))
+              .andExpect(jsonPath("$.lastName", is(userDTO.getLastName())))
+              .andReturn();
+
+      String jsonResponse = mvcResult.getResponse().getContentAsString();
+      UserDTO userCreated = new ObjectMapper().readValue(jsonResponse, UserDTO.class);
+
+      Assertions.assertNotNull(userCreated);
+      assertEquals(userCreated.getId(), userDTO.getId());
+      assertEquals(userCreated.getName(), userDTO.getName());
+      assertEquals(userCreated.getAge(), userDTO.getAge());
+  }
+```
+
+
+
 
 
 
