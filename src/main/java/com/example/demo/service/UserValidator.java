@@ -10,6 +10,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserValidator {
 
+    /**
+     * The variable value
+     */
     final String COUNTRY = "France";
 
     /**
