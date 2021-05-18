@@ -32,6 +32,28 @@ git clone https://github.com/BardisRenos/AtosTest.git
 mvn clean install
 ```
 
+### Application Properties
+
+Changing the server port 
+
+```
+server.port=8081
+```
+
+Setting the H2 in memory database. 
+
+```
+spring.datasource.url=jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;IGNORECASE=TRUE;
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=' '
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+spring.datasource.initialization-mode=always
+spring.datasource.platform=h2
+spring.jpa.generate-ddl=true
+spring.jpa.hibernate.ddl-auto=create
+```
+
 
 ### Data Model
 
