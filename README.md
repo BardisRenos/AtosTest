@@ -48,19 +48,15 @@ Changing the server port from 8080 (Default) to 8081.
 ```
 server.port=8081
 ```
-
-Setting the H2 in memory database. I do not user a SQL database but a vitual memory which is creted when the application runs.  
+### Setting the non-relational database 
+Setting the MongoDB in memory database.  
 
 ```
-spring.datasource.url=jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;IGNORECASE=TRUE;
-spring.datasource.driverClassName=org.h2.Driver
-spring.datasource.username=sa
-spring.datasource.password=' '
-spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
-spring.datasource.initialization-mode=always
-spring.datasource.platform=h2
-spring.jpa.generate-ddl=true
-spring.jpa.hibernate.ddl-auto=create
+#Mongo Configuration
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=mongodb
+spring.data.mongodb.repositories.enable=true
 ```
 
 ### Data Model
@@ -68,13 +64,31 @@ spring.jpa.hibernate.ddl-auto=create
 The Model part is the representation the database table schema into Java coding. Setting the attributes of the User object witch corrensponds with the Users database table schema attributes.
 
 
-The `Entity` annotation indicates the variables entitity of the database table. Also, the `@Table` corrensopnd to database table name. Finally the `@Data`  
+The `@Document` corrensopnd to the database table name. Also, the `@Data` is the annotation that helps a developer to interact with the database's entities. 
 
 ```java
-@Entity
-@Table(name = "Users")
 @Data
+@Document
+```
 
+### Setting the mongodb service
+
+If you work on linux operation system. The command to install mongodb servet is :
+
+```script
+sudo apt install mongodb-server-core
+```
+Have to create a folder in order to store some files there
+
+```script
+mkdir data-mongodb
+cd data-mongodb
+```
+
+Enable the mongodb server
+
+```script
+mongod --dbpath=.
 ```
 
 By using the annotation `@Id` sets the `primary key` (Id attribute) which will be unique, nullable and not updatable. 
@@ -392,6 +406,7 @@ From this screen shot it is obvious that all the test are passed.
 
 ### UML Diagram 
 
+In this section will demostrates the 
 
 <p align="center"> 
 <img src="https://github.com/BardisRenos/AtosTest/blob/master/uml.png" width="450" height="550" style=centerme>
