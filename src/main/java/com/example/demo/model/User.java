@@ -3,14 +3,14 @@ import java.io.Serializable;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import lombok.Data;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 /**
  * This class represents the User model (Database table) and the attributes. Some are mandatory and with
  * a specific size, with the limit of the minimum and the maximum size.
  */
-@Entity
-@Table(name = "Users")
 @Data
+@Document
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
