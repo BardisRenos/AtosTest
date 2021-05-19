@@ -137,7 +137,7 @@ OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
 <img src="https://github.com/BardisRenos/AtosTest/blob/master/layers.png" width="350" height="450" style=centerme>
 </p>
 
-### The different structure 
+### The two different structures
 
 How architecture should be, with DTO and without. 
 
