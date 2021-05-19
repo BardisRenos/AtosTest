@@ -419,7 +419,16 @@ In this section will demostrates the UML diagram.
 </p>
 
 
+### Flow diagram of the structure
 
+This structure depicts the flow of each components until the database.  
+
+<p align="center"> 
+<img src="https://github.com/BardisRenos/AtosTest/blob/master/Images/umlDB.png" width="450" height="550" style=centerme>
+</p>
+
+
+### UML Sequence Diagram
 
 
 
