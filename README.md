@@ -139,7 +139,7 @@ OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
 
 ### The different structure 
 
-How should is the architecture, with DTO and without. 
+How architecture should be, with DTO and without. 
 
 3 Layers
 
@@ -356,7 +356,6 @@ void getUser() throws UserNotFoundException {
     assertEquals("Bardis", userRes.getLastName());
 }
 
-
 ```
 
 
@@ -413,7 +412,7 @@ Run All test with Coverage
 
 ### UML Diagram 
 
-In this section will demostrates the 
+In this section will demostrates the UML diagram. 
 
 <p align="center"> 
 <img src="https://github.com/BardisRenos/AtosTest/blob/master/uml.png" width="450" height="550" style=centerme>
