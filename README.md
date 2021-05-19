@@ -399,7 +399,7 @@ From this screen shot it is obvious that all the test are passed.
 
 
 <p align="center"> 
-<img src="https://github.com/BardisRenos/AtosTest/blob/master/test-screenshot.png" width="550" height="550" style=centerme>
+<img src="https://github.com/BardisRenos/AtosTest/blob/master/Images/test-screenshot.png" width="550" height="550" style=centerme>
 </p>
 
 
@@ -415,7 +415,7 @@ Run All test with Coverage
 In this section will demostrates the UML diagram. 
 
 <p align="center"> 
-<img src="https://github.com/BardisRenos/AtosTest/blob/master/uml.png" width="450" height="550" style=centerme>
+<img src="https://github.com/BardisRenos/AtosTest/blob/master/Images/uml.png" width="450" height="550" style=centerme>
 </p>
 
 
@@ -423,13 +423,14 @@ In this section will demostrates the UML diagram.
 
 This structure depicts the flow of each components until the database.  
 
-<p align="center"> 
-<img src="https://github.com/BardisRenos/AtosTest/blob/master/Images/umlDB.png" width="450" height="550" style=centerme>
-</p>
+
 
 
 ### UML Sequence Diagram
 
+<p align="center"> 
+<img src="https://github.com/BardisRenos/AtosTest/blob/master/Images/umlDB.png" width="450" height="550" style=centerme>
+</p>
 
 
 
