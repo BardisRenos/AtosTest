@@ -32,7 +32,7 @@ Bonuses:
 ### Installation
 
 ```git
-git clone https://github.com/BardisRenos/AtosTest.git
+git clone https://github.com/BardisRenos/Rest-Api-with-Spring-Boot-Test.git
 ```
 
 To clean and install the Maven repository dependencies. 
