@@ -1,22 +1,22 @@
-# Atos Assigment Test
+# Assignment Test
 
 
 ### Info
 
-Create 2 REST services: one that allows to register a user and the other one that displays the details of a registered user.
+Create 2 REST services: one that allows to registration of a user and the other one that displays the details of a registered user.
 
 Requirements:
 - define a user (what are the fields needed). We should have mandatory and optional fields!
 - validate the input and return proper error messages/http status
 - log the input and output of each call and the processing time.
-- have a request parameter which is not mandatory and which provides a default value in case is not set
+- have a request parameter that is not mandatory and which provides a default value in case is not set
 - have a path variable
-- clear code and javadoc
+- clear code and Javadoc
 - unit tests
-- only adults ( age > 18 years) and who live in France can create an account!
+- only adults ( age > 18 years) and those who live in France can create an account!
 
 Bonuses:
-- user a non-relational DB in order to save the users!
+- user a non-relational DB to save the users!
 - use AOP
 - documentation/UML/schemas to explain the architecture
 
@@ -35,7 +35,7 @@ Bonuses:
 git clone https://github.com/BardisRenos/AtosTest.git
 ```
 
-In order to clean and install the Maven repository dependencies. 
+To clean and install the Maven repository dependencies. 
 
 ```
 mvn clean install
@@ -49,7 +49,7 @@ Changing the server port from 8080 (Default) to 8081.
 server.port=8081
 ```
 ### Setting the non-relational database 
-Setting the MongoDB in memory database.  
+Setting the MongoDB in-memory database.  
 
 ```
 #Mongo Configuration
@@ -61,10 +61,10 @@ spring.data.mongodb.repositories.enable=true
 
 ### Data Model
 
-The Model part is the representation the database table schema into Java coding. Setting the attributes of the User object witch corrensponds with the Users database table schema attributes.
+The Model part is the representation of the database table schema in Java coding. Setting the attributes of the User object which corresponds with the Users database table schema attributes.
 
 
-The `@Document` corrensopnd to the database table name. Also, the `@Data` is the annotation that helps a developer to interact with the database's entities. 
+The `@Document` corresponds to the database table name. Also, the `@Data` is the annotation that helps a developer to interact with the database's entities. 
 
 ```java
 @Data
@@ -100,7 +100,7 @@ By using the annotation `@Id` sets the `primary key` (Id attribute) which will b
 private int id;
 ````
 
-By using the annotation `@NotNUll` and `@Size` you specify that entity should not be null and also the size should be inside of a specific size. 
+By using the annotations `@NotNUll` and `@Size` you specify that the entity should not be null and also the size should be inside of a specific size. 
 
 ```java
 @NotNull(message = "The name cannot be null")
@@ -115,7 +115,7 @@ private String city;
 
 ### DTO's (Data Transfer Object) and DTO Mappers
 
-The conversation of the data base entities into Data tranform objects. We try not to expose the entities from the database. 
+The conversation of the database entities into Data transform objects. We try not to expose the entities from the database. 
 
 
 Since we are using Maven, just add the `modelmapper` library as a dependency.
@@ -412,7 +412,7 @@ Run All test with Coverage
 
 ### UML Diagram 
 
-In this section will demostrates the UML diagram. 
+In this section will demonstrate the UML diagram. 
 
 <p align="center"> 
 <img src="https://github.com/BardisRenos/AtosTest/blob/master/Images/uml.png" width="450" height="550" style=centerme>
@@ -421,7 +421,7 @@ In this section will demostrates the UML diagram.
 
 ### Flow diagram of the structure
 
-This structure depicts the flow of each components until the database.  
+This structure depicts the flow of each component until the database.  
 
 <p align="center"> 
 <img src="https://github.com/BardisRenos/AtosTest/blob/master/Images/UMLDiagram.png" width="450" height="550" style=centerme>
