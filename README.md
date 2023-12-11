@@ -95,8 +95,6 @@ By using the annotation `@Id` sets the `primary key` (Id attribute) which will b
 
 ```java
 @Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-@Column(unique = true, nullable = false, updatable = false)
 private int id;
 ````
 
