@@ -89,7 +89,7 @@ By using the annotation `@Id` sets the `primary key` (Id attribute) which will b
 
 ```java
 @Id
-private int id;
+private String id;
 ````
 
 By using the annotations `@NotNUll` and `@Size` you specify that the entity should not be null and also the size should be inside of a specific size. 
