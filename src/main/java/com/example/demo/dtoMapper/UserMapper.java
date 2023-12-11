@@ -16,7 +16,7 @@ public class UserMapper {
      * @return UserDTO class
      */
     public UserDTO convertAllUserEntityToDTO(User userEntity){
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(userEntity, UserDTO.class);
+
+        return new ModelMapper().map(userEntity, UserDTO.class);
     }
 }

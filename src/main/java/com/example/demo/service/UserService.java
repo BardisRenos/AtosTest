@@ -1,38 +1,29 @@
 package com.example.demo.service;
-import com.example.demo.dal.UserRepository;
+import com.example.demo.dao.UserRepository;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dtoMapper.UserMapper;
 import com.example.demo.exception.*;
 import com.example.demo.model.User;
+import com.example.demo.requestEntity.UserRequest;
+import com.example.demo.utils.UserValidator;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 /**
  * User Service layer.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
     private final UserValidator userValidator;
-
-    /**
-     * User Service Constructor
-     * @param userRepository User Repository
-     * @param userMapper User Mapper
-     * @param userValidator User Validator
-     */
-    @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper, UserValidator userValidator) {
-        this.userRepository = userRepository;
-        this.userMapper = userMapper;
-        this.userValidator = userValidator;
-    }
 
     /**
      * Register a new user. Also, rise a User Validation Exception if the user is not older that 18 years old
@@ -41,23 +32,27 @@ public class UserService {
      * @return UserDTO class.
      * @throws UserValidationException User Validation Exception
      */
-    public UserDTO registerUser(User user) throws UserValidationException {
+    public UserDTO registerUser(UserRequest user) throws UserValidationException {
         userValidator.validate(user);
-        user = userRepository.save(user);
-        return userMapper.convertAllUserEntityToDTO(user);
+
+        User userEntity = new User(UUID.randomUUID().toString().split("-")[0], user.getName(),
+                user.getLastName(), user.getAge(), user.getAddress(), user.getCity(), user.getCountry());
+
+        User userEntityRes = userRepository.save(userEntity);
+        return userMapper.convertAllUserEntityToDTO(userEntityRes);
     }
 
     /**
      * Retrieve a User by the unique ID.
      *
-     * @param id is unique and not null.
+     * @param userId is unique and not null.
      * @return UserDTO object.
      * @throws UserNotFoundException User Not Found Exception
      */
-    public UserDTO getUser(Integer id) throws UserNotFoundException {
-        Optional<User> user = userRepository.findById(id);
+    public UserDTO getUser(String userId) throws UserNotFoundException {
+        Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty()) {
-            throw new UserNotFoundException(String.format("User with ID: %s not found", id));
+            throw new UserNotFoundException(String.format("User with ID: %s not found", userId));
         }
         return userMapper.convertAllUserEntityToDTO(user.get());
     }
@@ -68,7 +63,11 @@ public class UserService {
      * @param country Country parameter
      * @return a list of UserDTOs.
      */
-    public List<UserDTO> getUserByCountry(String country) {
+    public List<UserDTO> getUserByCountry(String country) throws UserNotFoundException {
+        List<User> listOfUsers = userRepository.findByCountry(country);
+        if(listOfUsers.isEmpty()) {
+            throw new UserNotFoundException(String.format("User with country: %s not found or the country", country));
+        }
         return userRepository.findByCountry(country).stream().map(userMapper::convertAllUserEntityToDTO).collect(Collectors.toList());
     }
 

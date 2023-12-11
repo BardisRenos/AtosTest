@@ -1,9 +1,10 @@
 package com.example.demo.UserControllerTest;
 import com.example.demo.controller.UserController;
-import com.example.demo.dal.UserRepository;
+import com.example.demo.dao.UserRepository;
 import com.example.demo.dto.UserDTO;
 import com.example.demo.dtoMapper.UserMapper;
 import com.example.demo.model.User;
+import com.example.demo.requestEntity.UserRequest;
 import com.example.demo.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
@@ -62,7 +63,7 @@ public class UserControllerTest {
     void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(context).build();
         MockitoAnnotations.initMocks(this);
-        userController = new UserController(userService, userRepository);
+        userController = new UserController(userService);
     }
 
 
@@ -74,22 +75,20 @@ public class UserControllerTest {
     @Test
     public void getUserByCountry() throws Exception {
         List<UserDTO> userList = new ArrayList<>();
-        userList.add(new UserDTO(1, "Renos", "Bardis", 20, "78 BD DD", "Antes", "France"));
-        userList.add(new UserDTO(2, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France"));
+        userList.add(new UserDTO("1","Renos", "Bardis", 20, "78 BD DD", "Antes", "France"));
+        userList.add(new UserDTO("2","Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France"));
 
-        UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+        UserDTO userDTO = new UserDTO("2","Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
 
-        String url = "/user?country=France";
+        String url = "/api/v1/user/userByCountry?country=France";
         when(userService.getUserByCountry("France")).thenReturn(userList);
         mockMvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(userDTO)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[*]", hasSize(2)))
-                .andExpect(jsonPath("$[0].id", is(userList.get(0).getId())))
                 .andExpect(jsonPath("$[0].name", is(userList.get(0).getName())))
                 .andExpect(jsonPath("$[0].lastName", is(userList.get(0).getLastName())))
-                .andExpect(jsonPath("$[1].id", is(userList.get(1).getId())))
                 .andExpect(jsonPath("$[1].name", is(userList.get(1).getName())))
                 .andExpect(jsonPath("$[1].lastName", is(userList.get(1).getLastName())))
                 .andReturn();
@@ -101,17 +100,16 @@ public class UserControllerTest {
      */
     @Test
     public void getUserById() throws Exception {
-        final int id = 1;
-        UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+        final String id = "1";
+        UserDTO userDTO = new UserDTO("1", "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
 
         when(userService.getUser(id)).thenReturn(userDTO);
 
-        MvcResult mvcResult = mockMvc.perform(get("/user/{id}", id)
+        MvcResult mvcResult = mockMvc.perform(get("/api/v1/user/{id}", id)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(userDTO)))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(userDTO.getId())))
                 .andExpect(jsonPath("$.name", is(userDTO.getName())))
                 .andExpect(jsonPath("$.lastName", is(userDTO.getLastName())))
                 .andReturn();
@@ -120,7 +118,6 @@ public class UserControllerTest {
         UserDTO userCreated = new ObjectMapper().readValue(jsonResponse, UserDTO.class);
 
         Assertions.assertNotNull(userCreated);
-        assertEquals(userCreated.getId(), userDTO.getId());
         assertEquals(userCreated.getName(), userDTO.getName());
         assertEquals(userCreated.getAge(), userDTO.getAge());
 
@@ -132,17 +129,16 @@ public class UserControllerTest {
      */
     @Test
     public void insertUser() throws Exception {
-        User user = new User(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
-        UserDTO userDTO = new UserDTO(1, "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+        User user = new User("1", "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
+        UserDTO userDTO = new UserDTO("1", "Nikos", "Papas", 40, "10 BVD LL", "Lyon", "France");
 
-        when(userService.registerUser(any(User.class))).thenReturn(userDTO);
+        when(userService.registerUser(any(UserRequest.class))).thenReturn(userDTO);
 
-        MvcResult mvcResult = mockMvc.perform(post("/user")
+        MvcResult mvcResult = mockMvc.perform(post("/api/v1/user/insert")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(om.writeValueAsString(user)))
-                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(userDTO.getId())))
                 .andExpect(jsonPath("$.name", is(userDTO.getName())))
                 .andExpect(jsonPath("$.lastName", is(userDTO.getLastName())))
                 .andReturn();
@@ -151,7 +147,6 @@ public class UserControllerTest {
         UserDTO userCreated = new ObjectMapper().readValue(jsonResponse, UserDTO.class);
 
         Assertions.assertNotNull(userCreated);
-        assertEquals(userCreated.getId(), userDTO.getId());
         assertEquals(userCreated.getName(), userDTO.getName());
         assertEquals(userCreated.getAge(), userDTO.getAge());
     }

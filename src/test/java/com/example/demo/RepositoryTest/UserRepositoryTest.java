@@ -1,6 +1,6 @@
 package com.example.demo.RepositoryTest;
 
-import com.example.demo.dal.UserRepository;
+import com.example.demo.dao.UserRepository;
 import com.example.demo.model.User;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,8 +27,8 @@ public class UserRepositoryTest {
      */
     @BeforeEach
     public void init(){
-        User user = new User(1, "Renard", "Bardis", 20, "78 BD DD", "Antes", "France");
-        User user1 = new User(2, "Nikoleta", "Papas", 45, "10 BVD LLL", "Lyon", "France");
+        User user = new User("1", "Renard", "Bardis", 20, "78 BD DD", "Antes", "France");
+        User user1 = new User("2", "Nikoleta", "Papas", 45, "10 BVD LLL", "Lyon", "France");
         userRepository.save(user);
         userRepository.save(user1);
     }
@@ -53,7 +53,7 @@ public class UserRepositoryTest {
 
     /**
      * This method checks if the number of the records are not that the database has. Also,
-     * checks if the the given name of the first record is not what it has.
+     * checks if the given name of the first record is not what it has.
      */
     @Test
     public void testDataNot(){
@@ -67,7 +67,7 @@ public class UserRepositoryTest {
      */
     @Test
     public void testFindById(){
-        Optional<User> userRes = userRepository.findById(1);
+        Optional<User> userRes = userRepository.findById("1");
         if(userRes.isPresent()) {
             User user = userRes.get();
             assertEquals("Renard", user.getName());
@@ -80,7 +80,7 @@ public class UserRepositoryTest {
      */
     @Test
     public void testFindByIdNot(){
-        Optional<User> userRes = userRepository.findById(10);
+        Optional<User> userRes = userRepository.findById("10");
         assertFalse(userRes.isPresent());
     }
 
@@ -95,7 +95,7 @@ public class UserRepositoryTest {
     }
 
     /**
-     * This method retrieves user by the country. Checks the user name and the size of the retrieved users are not
+     * This method retrieves user by the country. Checks the username and the size of the retrieved users are not
      * there.
      */
     @Test

@@ -1,11 +1,14 @@
 package com.example.demo.controller;
-import com.example.demo.dal.UserRepository;
+
 import com.example.demo.dto.UserDTO;
-import com.example.demo.exception.*;
-import com.example.demo.model.User;
+import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.exception.UserValidationException;
+import com.example.demo.requestEntity.UserRequest;
 import com.example.demo.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 
@@ -13,22 +16,11 @@ import java.util.List;
  * The Controller layer.
  */
 @RestController
+@RequiredArgsConstructor
+@RequestMapping(value = "/api/v1/user")
 public class UserController {
 
     private final UserService userService;
-
-    private final UserRepository userRepository;
-
-    /**
-     * User Controller Constructor
-     * @param userService User Service
-     * @param userRepository User Repository
-     */
-    @Autowired
-    public UserController(UserService userService, UserRepository userRepository) {
-        this.userService = userService;
-        this.userRepository = userRepository;
-    }
 
     /**
      * Register new user to the database and the
@@ -36,8 +28,9 @@ public class UserController {
      * @return UserDTO class.
      * @throws UserValidationException User Validation Exception
      */
-    @PostMapping("/user")
-    public UserDTO saveUser(@Valid @RequestBody User user) throws UserValidationException {
+    @PostMapping(value = "/insert")
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDTO saveUser(@RequestBody @Valid UserRequest user) throws UserValidationException {
         return userService.registerUser(user);
     }
 
@@ -46,8 +39,9 @@ public class UserController {
      * @param country not unique.
      * @return List of UserDTOs.
      */
-    @GetMapping("/user")
-    public List<UserDTO> getUser(@RequestParam(value = "country", defaultValue = "France") String country) {
+    @GetMapping(value ="/userByCountry")
+    @ResponseStatus(HttpStatus.OK)
+    public List<UserDTO> getUser(@RequestParam(value = "country", defaultValue="France") String country) throws UserNotFoundException {
         return userService.getUserByCountry(country);
     }
 
@@ -57,8 +51,9 @@ public class UserController {
      * @return UserDTO class.
      * @throws UserNotFoundException User Not Found Exception
      */
-    @GetMapping("/user/{id}")
-    public UserDTO getUserId(@PathVariable("id") Integer id) throws UserNotFoundException {
+    @GetMapping(value ="/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public UserDTO getUserId(@PathVariable("id") String id) throws UserNotFoundException {
         return userService.getUser(id);
     }
 }
