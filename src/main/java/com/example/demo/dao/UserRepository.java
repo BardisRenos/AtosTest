@@ -1,4 +1,4 @@
-package com.example.demo.dal;
+package com.example.demo.dao;
 import com.example.demo.model.User;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,8 @@ import java.util.Optional;
  * variable type of the primary key. In our case its Integer.
  */
 @Repository
-public interface UserRepository extends MongoRepository<User, Integer> {
+public interface UserRepository extends MongoRepository<User, String> {
+
     /**
      * Retrieve a number of users by a country.
      * @param Country parameter
@@ -24,6 +25,6 @@ public interface UserRepository extends MongoRepository<User, Integer> {
      * @param id unique variable for each user
      * @return Optional<User>
      */
-    Optional<User> findById(Integer id);
+//    Optional<User> findById(String id);
 
 }

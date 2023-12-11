@@ -1,4 +1,5 @@
-package com.example.demo.controller;
+package com.example.demo.utils;
+
 import org.slf4j.*;
 import org.springframework.stereotype.Component;
 import javax.servlet.*;

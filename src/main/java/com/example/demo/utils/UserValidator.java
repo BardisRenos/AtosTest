@@ -1,6 +1,8 @@
-package com.example.demo.service;
+package com.example.demo.utils;
+
 import com.example.demo.exception.UserValidationException;
 import com.example.demo.model.User;
+import com.example.demo.requestEntity.UserRequest;
 import org.springframework.stereotype.Component;
 
 /**
@@ -21,7 +23,7 @@ public class UserValidator {
      * @param user Class.
      * @throws UserValidationException
      */
-    public void validate(User user) throws UserValidationException {
+    public void validate(UserRequest user) throws UserValidationException {
         if (user.getAge() <= 18 || !COUNTRY.equalsIgnoreCase(user.getCountry())) {
             throw new UserValidationException(String.format("User must be older than 18 years old and live in %s", COUNTRY));
         }
