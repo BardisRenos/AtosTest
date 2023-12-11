@@ -74,22 +74,15 @@ The `@Document` corresponds to the database table name. Also, the `@Data` is the
 
 ### Setting the mongodb service
 
-If you work on linux operation system. The command to install mongodb servet is :
+If you work on Linux operation system. The command to check the status of MongoDB server is on :
 
 ```script
-sudo apt install mongodb-server-core
+sudo systemctl status mongod
 ```
-Have to create a folder in order to store some files there
+To start the service if it is down
 
 ```script
-mkdir data-mongodb
-cd data-mongodb
-```
-
-Enable the mongodb server
-
-```script
-mongod --dbpath=.
+sudo systemctl start mongod
 ```
 
 By using the annotation `@Id` sets the `primary key` (Id attribute) which will be unique, nullable and not updatable. 
@@ -174,12 +167,12 @@ With DTO:
     Non Issue:
         A bit more code to do (sometimes it can be just a copy of an entity)
     ++:
-        More flexible in the Businness Lyaer to add data
+        More flexible in the Business Lyaer to add data
         Separate
         
 ### Validation 
 
-In order to validate that the attributes of a User object, should use `@Valid` as a parameter.
+To validate the attributes of a User object, should use `@Valid` as a parameter.
 
 ```java
 @PostMapping("/user")
@@ -188,7 +181,7 @@ public UserDTO saveUser(@Valid @RequestBody User user) throws UserValidationExce
 
 ### Schema Design
 
-The below sql command that create the database table `Users` 
+The below sql command create the database table `Users` 
 
 ```sql
 CREATE TABLE Users (
