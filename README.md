@@ -68,7 +68,7 @@ The `@Document` corresponds to the database table name. Also, the `@Data` is the
 
 ```java
 @Data
-@Document
+@Document(collection = "user")
 ```
 
 ### Setting the mongodb service
