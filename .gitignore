@@ -58,6 +58,7 @@ transaction-logs
 secrets.yml
 .gradletasknamecache
 
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
@@ -67,6 +68,7 @@ secrets.yml
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+
 
 ### VS Code ###
 .vscode/
