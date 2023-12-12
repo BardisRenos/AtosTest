@@ -279,6 +279,30 @@ public class UserValidator {
 }
 ```
 
+### Docker 
+
+It is possible to deploy and run the application via docker container.
+
+```
+FROM openjdk:11
+EXPOSE 8088
+ADD target/spring-app-docker.jar spring-app-docker.jar
+ENTRYPOINT ["java", "-jar", "/spring-app-docker.jar"]
+```
+
+To build the docker image. This command is needed.
+
+```
+docker build -t spring-boot-application-docker.jar .
+```
+
+Moreover, to run the container into a specific port this command is needed.
+
+```
+docker run -p 9090:8081 spring-boot-application-docker.jar
+```
+
+
 ### JUnit Testing
 
 It is best to test all the layers of this application. 
