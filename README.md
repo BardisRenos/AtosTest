@@ -179,31 +179,6 @@ To validate the attributes of a User object, should use `@Valid` as a parameter.
 public UserDTO saveUser(@Valid @RequestBody User user) throws UserValidationException 
 ```
 
-### Schema Design
-
-The below sql command create the database table `Users` 
-
-```sql
-CREATE TABLE Users (
-    `id`  INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
-    `name` VARCHAR(32) NOT NULL,
-    `lastName` VARCHAR(64) NOT NULL,
-    `age` INT NOT NULL,
-    `address` VARCHAR(64),
-    `city` VARCHAR(64),
-    `country` VARCHAR(64) NOT NULL);
-```
-
-The sql command `INSERT` fill up the table 
-
-```sql
- INSERT INTO Users (id, name, lastName, age, address, city, country)
- VALUES (122, 'Renos', 'Bardis', 20, '78 BD Wilson', 'Antibes', 'France'),
-        (222, 'Peter', 'Materdeeer', 21, '6 BD Dugommier', 'Juan Leas Pins', 'France'),
-        (322, 'William', 'Seillsss', 25, '89 BD Albert', 'Nice', 'France'),
-        (422, 'Nikos', 'Pappas', 35, '101 BD Cannes', 'Cannes', 'France');
-```
-
 ### Insert values into the database
 
 When the application starts, the database has already 4 records, in order to check if the application works.
