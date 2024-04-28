@@ -85,7 +85,7 @@ public class UserRepositoryTest {
     }
 
     /**
-     * This method retrieves user by the country. Checks the user name and the size of the retrieved users.
+     * This method retrieves user by the country. Checks the username and the size of the retrieved users.
      */
     @Test
     public void testFindByCountry(){
