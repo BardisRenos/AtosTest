@@ -3,13 +3,13 @@
 
 ### Info
 
-Create 2 REST services: one that allows to registration of a user and the other one that displays the details of a registered user.
+Create 2 REST services: one that allows the registration of a user and the other one that displays the details of a registered user.
 
 Requirements:
 - define a user (what are the fields needed). We should have mandatory and optional fields!
-- validate the input and return proper error messages/http status
+- validate the input and return proper error messages/HTTP status
 - log the input and output of each call and the processing time.
-- have a request parameter that is not mandatory and which provides a default value in case is not set
+- have a request parameter that is not mandatory and which provides a default value in case it is not set
 - have a path variable
 - clear code and Javadoc
 - unit tests
@@ -43,7 +43,7 @@ mvn clean install
 
 ### Application Properties
 
-Changing the server port from 8080 (Default) to 8081.
+We are changing the server port from 8080 (Default) to 8081.
 
 ```
 server.port=8081
