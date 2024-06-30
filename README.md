@@ -62,7 +62,7 @@ logging.level.org.springframework.data.mongodb.core.MongoTemplate=DEBUG
 
 ### Data Model
 
-The Model part is the representation of the database table schema in Java coding. Setting the attributes of the User object which corresponds with the Users database table schema attributes.
+The Model part represents the database table schema in Java coding. The Setting of the attributes of the User object which corresponds with the Users database table schema attributes.
 
 
 The `@Document` corresponds to the database table name. Also, the `@Data` is the annotation that helps a developer to interact with the database's entities. 
@@ -131,7 +131,7 @@ OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
 
 ### The two different structures
 
-How architecture should be, with DTO and without. 
+How architecture should be, with DTO and without it. 
 
 3 Layers
 
@@ -271,7 +271,7 @@ To build the docker image. This command is needed.
 docker build -t spring-boot-application-docker.jar .
 ```
 
-Moreover, to run the container into a specific port this command is needed.
+Moreover, to run the container into a specific port, this commands is needed.
 
 ```
 docker run -p 9090:8081 spring-boot-application-docker.jar
